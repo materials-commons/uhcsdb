@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.neighbors import NearestNeighbors
+from scipy.sparse import csr_matrix
 
 from flask import current_app
 
@@ -14,7 +15,9 @@ nneighs = None
 
 def load_features(featuresfile, perplexity=40):
     keys, X = [], []
-    
+
+    cwd = os.getcwd()
+    print(f"cwd = {cwd}")
     with h5py.File(featuresfile, 'r') as f:
         
         if 'tsne' in featuresfile:
@@ -53,10 +56,14 @@ def build_search_tree(datadir, featurename='vgg16_block5_conv3-vlad-64.h5'):
     
     global keys, features
     keys, features = load_features(features_file)
+    print ("after load features")
+    print(features)
+    print(features.shape)
 
     print('reducing features')
     pca = PCA(n_components=ndim)
     features = pca.fit_transform(features)
+    print(features)
     print('ready')
 
     print('building search tree')
@@ -71,7 +78,7 @@ def query(entry_id, n_results=16):
     query_vector = features[scikit_id]
 
     # nearest neighbor will be a self-match
-    scores, results = nneighs.kneighbors(query_vector, n_results+1)
+    scores, results = nneighs.kneighbors([query_vector], n_results+1)
     scores, results = scores.flatten()[1:], results.flatten()[1:]
     
     result_entries = map(keys.__getitem__, results)

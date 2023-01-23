@@ -1,30 +1,16 @@
 # all the imports
 import os
-import re
 import sys
-import glob
-import time
-import uuid
-import atexit
-import requests
-import subprocess
-import pandas as pd
-import seaborn as sns
-import pybtex.database
-from datetime import datetime
-from contextlib import closing
-from numpy import array, random
 from os.path import abspath, dirname, join
 
-from bokeh.client import pull_session
-from bokeh.embed import autoload_server
-
-from werkzeug.contrib.fixers import ProxyFix
-from flask import (Flask, request, session, g, redirect, url_for, send_file,
-                   abort, render_template, render_template_string, flash, current_app)
-
+import pybtex.database
+from flask import Flask, g, redirect, render_template
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker, contains_eager
+from sqlalchemy.orm import sessionmaker
+# from werkzeug.contrib.fixers import ProxyFix
+from werkzeug.middleware.proxy_fix import ProxyFix
+
+# from bokeh.embed import autoload_server
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -41,6 +27,7 @@ ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'jpeg', 'gif', 'tif'])
 
 def load_secret_key():
     pardir = os.path.dirname(__file__)
+    print(f"pardir = {pardir}")
     keyfile = os.path.join(pardir, 'secret_key')
     with open(keyfile, 'rb') as f:
         return f.read()
@@ -58,11 +45,8 @@ _cwd = dirname(abspath(__file__))
 
 print(app.config)
 
-from . import features
-from .models import Base, User, Collection, Sample, Micrograph
-
 from uhcsdb import features
-from uhcsdb.models import Base, User, Collection, Sample, Micrograph
+from .models import Base, Micrograph
 
 @app.before_first_request
 def build_search_tree():
@@ -142,7 +126,8 @@ def visual_query(entry_id):
 
 @app.route('/visualize')
 def bokeh_plot():
-    bokeh_script=autoload_server(None,app_path="/visualize", url="http://rsfern.materials.cmu.edu")
+    # bokeh_script=autoload_server(None,app_path="/visualize", url="http://rsfern.materials.cmu.edu")
+    bokeh_script = "hello"
     return render_template('visualize.html', bokeh_script=bokeh_script)
 
 @app.route('/writeup')
@@ -150,7 +135,8 @@ def writeup():
     return redirect('https://arxiv.org/abs/1702.01117')
 
 def format_bib_entry(entry):
-    return markup
+    return entry
+    # return markup
 
 def author_list(entry):
     authors = [' '.join(p.last_names) for p in entry.persons['author']]
