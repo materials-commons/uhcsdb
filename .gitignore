@@ -11,5 +11,6 @@ uhcsdb/static/thumbs
 uhcsdb/static/thumbs/
 uhcsdb/static/micrographs
 uhcsdb/static/micrographs/
-
-
+uhcsdb/static/representations/
+downloadtmp
+venv
