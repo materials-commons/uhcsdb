@@ -4,6 +4,11 @@ A dynamic microstructure exploration application built on Flask and Bokeh.
 Run flask app uhcsdb/uhcsdb.py in parallel with bokeh app uhcsdb/visualize.py
 
 The Ultrahigh Carbon Steel (UHCS) microstructure dataset is available on [materialsdata.nist.gov](https://hdl.handle.net/11256/940) ([https://hdl.handle.net/11256/940)](https://hdl.handle.net/11256/940).
+
+---
+**NOTE: The original link (given above) appears broken. The dataset can be found on [materialsdata.nist.gov](https://materialsdata.nist.gov/handle/11256/940) ([https://materialsdata.nist.gov/handle/11256/940)](https://materialsdata.nist.gov/handle/11256/940)**
+
+
 Please cite use of the UHCS microstructure data as:
 ```TeX
 @misc{uhcsdata,
@@ -29,40 +34,39 @@ For work that builds on these data visualization tools, please cite our forthcom
 ## Check out the data
 
 ```sh
-git clone https://github.com/bdecost/uhcsdb
+git clone https://github.com/materials-commons/uhcsdb.git
 cd uhcsdb
 ```
 
-Store microstructure metadata in uhcsdb/microstructures.sqlite
+All of the data is hosted on the NIST repository [https://materialsdata.nist.gov/handle/11256/940](https://materialsdata.nist.gov/handle/11256/940). If the links break, the repository can most likely be found by googling "Ultrahigh Carbon Steel Micrographs NIST"
+
+## Download the appropriate files accordlingly:
+- Store microtructure metadata (`microstuctures.sqlite`) in `uhcsdb/microstructures.sqlite`
+- Store (unzip) image files (`micrographs.zip`) under `uhcsdb/static/micrographs`.
+- Store (unzip) image representations (`representations.zip`) in HDF5 under `uhcsdb/static/representations`.
+- Store (unzip) reduced-dimensionality representations (`embed.zip`) in HDF5 under `uhcsdb/static/embed`.
+
+## Process images and thumbnails for webapp integration
+- Store (& unzip) `tools.zip` in top level directory, i.e. 
+  ```sh
+  cd ../
+  ```
+- Convert fullsized images to .png for browser compatibility
+  ```sh
+  bash tools/convert_to_png.sh
+  ```
+- Make thumbnails for dataviz app
+  ```sh
+  bash tools/make_thumbs.sh
+  ```
+
+## Launch app
 ```sh
-# get data from NIST for this project
-# http://hdl.handle.net/11256/940
-NIST_DATASET=11256/940
-NIST_DATASET=$(curl -I http://hdl.handle.net/11256/940 | grep "^Location:" | cut -d' ' -f2)
-
-DATADIR=uhcsdata
-
-echo "download data files into DATADIR=${DATADIR}"
-
-# download metadata
-curl ${NIST_DATASET_URL}/microstructures.sqlite -o ${DATADIR}/microstructures.sqlite
+cd uhcsdb
+bash uhcsdb/launch.sh
 ```
 
-Store image files under uhcsdb/static/micrographs.
 
-Store image representations in HDF5 under uhcsdb/static/representations.
 
-Store reduced-dimensionality representations in HDF5 under uhcsdb/static/embed.
-```sh
-for archivefile in micrographs.zip representations.zip embed.zip; do
-    curl ${NIST_DATASET_URL}/${archivefile} -o ${DATADIR}/${archivefile}
-    unzip ${DATADIR}/${archivefile} -d ${DATADIR}
-done
-```
 
-Link data files into web app /static
 
-```sh
-curl ${NIST_DATASET_URL}/setup.sh -o ${DATADIR}/setup.sh
-bash setup.sh
-```
