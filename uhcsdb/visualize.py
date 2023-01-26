@@ -9,7 +9,7 @@ import matplotlib as mpl
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, contains_eager
 
-from bokeh.layouts import row, widgetbox
+from bokeh.layouts import row, column
 from bokeh.plotting import curdoc, figure
 from bokeh.models import Select, ColumnDataSource, HoverTool, OpenURL, TapTool
 
@@ -64,8 +64,8 @@ def load_embedding(featuresfile, keys, method='PCA'):
 
     ordered by primary keys.
     """
-    
-    with h5py.File(featuresfile, 'r') as f:        
+
+    with h5py.File(featuresfile, 'r') as f:
         g = f[method]
         X = [g[key][...] for key in keys]
 
@@ -92,33 +92,35 @@ def assign_color(colorvar):
     c = reds(mpl.colors.Normalize(vmin=np.min(m), vmax=np.max(m))(m))
 
     col = ["#%02x%02x%02x" % (r, g, b)
-           for r, g, b, a in (255*c).astype(int)]
+           for r, g, b, a in (255 * c).astype(int)]
 
-    alpha = 1 - 0.7*m.mask
+    alpha = 1 - 0.7 * m.mask
     return col, alpha
+
 
 def assign_scale(scalevar):
     """masked markersize for quantitative metadata."""
     m = np.ma.array(scalevar, mask=(scalevar == -9999))
-    sc = 30*((m-np.min(m)) / np.max(m)) + 10
+    sc = 30 * ((m - np.min(m)) / np.max(m)) + 10
     sc[m.mask] = 5
 
-    alpha = 1 - 0.7*m.mask
+    alpha = 1 - 0.7 * m.mask
     return sc, alpha
 
 
 def update_map_points(attr, old, new):
     """update plot data in response to bokeh widget form data."""
-        
+
     hfile = os.path.join('static', 'embed', representation.value)
     X = load_embedding(hfile, keys=df['micrograph_id'].astype(str), method=manifold.value)
-            
-    source.data['x'] = X[:,0]
-    source.data['y'] = X[:,1]
-        
+
+    source.data['x'] = X[:, 0]
+    source.data['y'] = X[:, 1]
+
+
 def update_markercolor(attr, old, new):
     """update marker color metadata."""
-    
+
     if markercolor.value == 'primary microconstituent':
         col = [rgbmap[cls] for cls in df['primary_microconstituent']]
         alpha = 0.8 * np.ones(df.index.size)
@@ -131,29 +133,27 @@ def update_markercolor(attr, old, new):
     source.data['c'] = col
     source.data['alpha'] = alpha
 
-    
+
 def update_markersize(attr, old, new):
     """update marker size metadata."""
 
     # set sane defaults
     if markersize.value == 'None':
-        sz = 10*np.ones(df.index.size)
+        sz = 10 * np.ones(df.index.size)
         alpha = 0.8 * np.ones(df.index.size)
     else:
         sz, alpha = assign_scale(df[markersize.value].values)
-        
+
     source.data['size'] = sz
     source.data['alpha'] = alpha
-    
+
 
 # load metadata for all micrographs into pandas dataframe
 db = connect_db('microstructures.sqlite')
 q = (db.query(Micrograph)
      .outerjoin(Micrograph.sample)
      .options(contains_eager(Micrograph.sample))
-     .filter(Micrograph.primary_microconstituent.in_(unique_labels)
-     )
-)
+     .filter(Micrograph.primary_microconstituent.in_(unique_labels)))
 
 df = pd.read_sql_query(q.statement, con=db.connection())
 
@@ -161,13 +161,14 @@ df = pd.read_sql_query(q.statement, con=db.connection())
 # loading the whole dataset into a pandas df yields two 'id' columns
 # drop the id field that results from Micrograph.sample.id
 # df = df.T.groupby(level=0).last().T
-df = df.replace(np.nan, -9999) # bokeh (because json) can't deal with NaN values
+df = df.replace(np.nan, -9999)  # bokeh (because json) can't deal with NaN values
 
 # convert times to minutes, in place
-df.ix[df.anneal_time_unit=='H', 'anneal_time'] *= 60
+# df.ix[df.anneal_time_unit == 'H', 'anneal_time'] *= 60
+df.loc[df.anneal_time_unit == 'H', 'anneal_time'] *= 60
 
 # set default form data to draw the default plot
-default_representation = 'vgg16_block5_conv3-vlad-32.h5'                        
+default_representation = 'vgg16_block5_conv3-vlad-32.h5'
 representations = list(map(os.path.basename, glob.glob('static/embed/*.h5')))
 representation = Select(title='Representation', value=default_representation, options=representations)
 representation.on_change('value', update_map_points)
@@ -195,26 +196,28 @@ x = load_embedding(hfile, keys=df['micrograph_id'].astype(str), method='t-SNE')
 
 thumb = ['static/thumbs/micrograph{}.png'.format(key) for key in df['micrograph_id']]
 
-source =  ColumnDataSource(
+source = ColumnDataSource(
     data=dict(
         key=df['micrograph_id'].values,
-        x=x[:,0],
-        y=x[:,1],
+        x=x[:, 0],
+        y=x[:, 1],
         thumb=thumb,
         temperature=df['anneal_temperature'].values,
         time=df['anneal_time'].values,
         mclass=df['primary_microconstituent'].values,
-        mag=df['micron_bar'].values/df['micron_bar_px'].values, # TODO: convert units!
-        size=10*np.ones(df.index.size),
-        c = [rgbmap[cls] for cls in df['primary_microconstituent']],
-        alpha=0.8*np.ones(df.index.size),
+        mag=df['micron_bar'].values / df['micron_bar_px'].values,  # TODO: convert units!
+        size=10 * np.ones(df.index.size),
+        c=[rgbmap[cls] for cls in df['primary_microconstituent']],
+        alpha=0.8 * np.ones(df.index.size),
     )
 )
 
-
-p = figure(plot_height=800, plot_width=800, title='UHCS microstructure explorer',
+# p = figure(plot_height=800, plot_width=800, title='UHCS microstructure explorer',
+#            tools=['crosshair', 'pan', 'reset', 'save', 'wheel_zoom', 'tap', hover])
+p = figure(height=800, width=800, title='UHCS microstructure explorer',
            tools=['crosshair', 'pan', 'reset', 'save', 'wheel_zoom', 'tap', hover])
-circles = p.circle(x='x', y='y', source=source, size='size', color='c', alpha='alpha', line_color="black", line_alpha=0.3)
+circles = p.circle(x='x', y='y', source=source, size='size', color='c', alpha='alpha', line_color="black",
+                   line_alpha=0.3)
 p.toolbar.active_scroll = 'auto'
 
 # url_for_entry = "visual_query/@key"
@@ -222,6 +225,6 @@ url_for_entry = "micrograph/@key"
 taptool = p.select(type=TapTool)
 taptool.callback = OpenURL(url=url_for_entry)
 
-controls = widgetbox([representation, manifold, markercolor, markersize], width=256)
-curdoc().add_root( row(controls, p) )
+controls = column([representation, manifold, markercolor, markersize], width=256)
+curdoc().add_root(row(controls, p))
 curdoc().title = "UHCSDB: a microstructure explorer"
