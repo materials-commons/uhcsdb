@@ -47,12 +47,12 @@ app.config.from_envvar('UHCSDB_SETTINGS', silent=True)
 _cwd = dirname(abspath(__file__))
 
 
-# @app.before_first_request
-# def build_search_tree():
-#     features.build_search_tree('uhcsdb/static/representations',
-#                                featurename='vgg16_multiscale_block5_conv3-vlad-32.h5'
-#                                )
-#     # features.build_search_tree(app.config['DATADIR'])
+@app.before_first_request
+def build_search_tree():
+    features.build_search_tree('uhcsdb/static/representations',
+                               featurename='vgg16_multiscale_block5_conv3-vlad-32.h5'
+                               )
+    # features.build_search_tree(app.config['DATADIR'])
 
 
 def connect_db(dbpath):
@@ -183,8 +183,8 @@ def publications():
 
 
 if __name__ == '__main__':
-    features.build_search_tree('uhcsdb/static/representations',
-                               featurename='vgg16_multiscale_block5_conv3-vlad-32.h5')
+    # features.build_search_tree('uhcsdb/static/representations',
+    #                            featurename='vgg16_multiscale_block5_conv3-vlad-32.h5')
     app.config.from_object('config')
 
     with app.app_context():

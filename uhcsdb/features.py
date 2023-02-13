@@ -17,7 +17,6 @@ def load_features(featuresfile, perplexity=40):
     keys, X = [], []
 
     cwd = os.getcwd()
-    print(f"cwd = {cwd}")
     with h5py.File(featuresfile, 'r') as f:
         
         if 'tsne' in featuresfile:
@@ -52,26 +51,17 @@ def build_search_tree(datadir, featurename='vgg16_block5_conv3-vlad-64.h5'):
 
     ndim = 64
     features_file = os.path.join(datadir, featurename)
-    print(features_file)
-    
+
     global keys, features
     keys, features = load_features(features_file)
-    print ("after load features")
-    print(features)
-    print(features.shape)
 
-    print('reducing features')
     pca = PCA(n_components=ndim)
     features = pca.fit_transform(features)
-    print(features)
-    print('ready')
 
-    print('building search tree')
     nn = NearestNeighbors()
     
     global nneighs
     nneighs = nn.fit(features)
-    print('ready')
 
 def query(entry_id, n_results=16):
     scikit_id = keys.index(entry_id)
