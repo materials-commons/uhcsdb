@@ -1,7 +1,7 @@
 body            { font-family: sans-serif; background: #f8f8f8}
 a               { color: #7493a2; }
-a.titleLink     { color: #990000; text-decoration: none; }
-h1, h2          { color: #990000; }
+a.titleLink     { color: rgb(11,104,162); text-decoration: none; }
+h1, h2          { color: rgb(49,130,206); }
 h1, h2          { font-family: 'Georgia', serif; margin: 0; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { font-size: 1.2em; }
