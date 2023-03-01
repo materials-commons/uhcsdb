@@ -20,7 +20,7 @@
   {% for entry in entries %}
   <div class="entry">	
 	<a href="/visual_query/{{ entry.micrograph_id }}">
-	  <img src="{{ entry.micrograph_path }}"
+	  <img src="{{ entry.micrograph_path }}" class="img-mg"
 		   alt={{ entry.micrograph_path }}
 		   title="find micrographs like #{{ entry.micrograph_id }}">
 	</a><br>

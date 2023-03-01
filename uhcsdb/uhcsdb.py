@@ -49,9 +49,9 @@ _cwd = dirname(abspath(__file__))
 
 @app.before_first_request
 def build_search_tree():
-    # features.build_search_tree('uhcsdb/static/representations',
-    #                            featurename='vgg16_multiscale_block5_conv3-vlad-32.h5'
-    #                            )
+    features.build_search_tree('uhcsdb/static/representations',
+                               featurename='vgg16_multiscale_block5_conv3-vlad-32.h5'
+                               )
     # features.build_search_tree(app.config['DATADIR'])
     pass
 

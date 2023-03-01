@@ -2,10 +2,11 @@
 
 {% block body %}
 <div class="container">
-  <div class="query">
+  <div class="entry">
 	<a href="/micrograph/{{ query.micrograph_id }}">
 	  <img 
-	    src="/static/micrographs-fullsize/micrograph{{ query.micrograph_id }}.png"
+        class="img-mg"
+	    src="/static/micrographs/micrograph{{ query.micrograph_id }}.png"
 	    alt={{ query.micrograph_path }}
 	    title={{ query.micrograph_path }}
 	    >
@@ -25,7 +26,7 @@
   {% for result, score in results %}
   <div class="entry">	
 	<a href="/visual_query/{{ result.micrograph_id }}">
-	  <img src="{{ result.micrograph_path }}"
+	  <img src="{{ result.micrograph_path }}" class="img-mg"
 		   alt={{ result.micrograph_path }}
 		   title="find micrographs like #{{ result.micrograph_id }}" >
 	</a><br>

@@ -1,38 +1,132 @@
-body            { font-family: sans-serif; background: #f8f8f8}
-a               { color: #7493a2; }
-a.titleLink     { color: rgb(11,104,162); text-decoration: none; }
-h1, h2          { color: rgb(49,130,206); }
-h1, h2          { font-family: 'Georgia', serif; margin: 0; }
-h1              { border-bottom: 2px solid #eee; }
-h2              { font-size: 1.2em; }
-img             { display: block; width: 100%; margin-left: auto; margin-right: auto; } 
-img.single      { display: block; width: 90%; margin-left: auto; margin-right: auto;
-				  margin: 10px 10px 10px 10px; padding: 3px; }
+body {
+    font-family: sans-serif;
+    background: #f8f8f8
+}
 
-.page           { margin: 2em auto; width: 80%; border: 2px solid #ccc;
-		  padding: 0.8em; background: white; }
+a {
+    color: #7493a2;
+}
 
-section { width: 80%; min-height: 100%; display:table; height:inherit;
-	  margin: 2em auto; border: 2px solid #ccc; padding: 0.8em; background: white; }
-.footer         { display: table-row; }
+a.titleLink {
+    color: rgb(11, 104, 162);
+    text-decoration: none;
+}
+
+h1, h2 {
+    color: rgb(49, 130, 206);
+}
+
+h1, h2 {
+    font-family: 'Georgia', serif;
+    margin: 0;
+}
+
+h1 {
+    border-bottom: 2px solid #eee;
+}
+
+h2 {
+    font-size: 1.2em;
+}
+
+/*img             { display: block; width: 100%; margin-left: auto; margin-right: auto; } */
+.img-mg {
+    display: block;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.single {
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 10px 10px 10px 10px;
+    padding: 3px;
+}
+
+.page {
+    margin: 2em auto;
+    width: 80%;
+    border: 2px solid #ccc;
+    padding: 0.8em;
+    background: white;
+}
+
+section {
+    width: 80%;
+    min-height: 100%;
+    display: table;
+    height: inherit;
+    margin: 2em auto;
+    border: 2px solid #ccc;
+    padding: 0.8em;
+    background: white;
+}
+
+.footer {
+    display: table-row;
+}
+
 /* .footer         { margin: 2em auto; width: 100%; border: 2px solid #ccc;
 		  padding: 0.8em; background: white; display: table-row; }
 */
-.col-left, .col-right { width: 50%; display: table-cell; vertical-align: bottom; }
-.col-left       { text-align: left; }
-.col-right      { text-align: right; }
+.col-left, .col-right {
+    width: 50%;
+    display: table-cell;
+    vertical-align: bottom;
+}
 
-.entries        { list-style: none; margin: 0; padding: 0; }
-.entries li     { margin: 0.8em 1.2em; }
-.entries li h2  { margin-left: -1em; }
+.col-left {
+    text-align: left;
+}
+
+.col-right {
+    text-align: right;
+}
+
+.entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.entries li {
+    margin: 0.8em 1.2em;
+}
+
+.entries li h2 {
+    margin-left: -1em;
+}
+
 /* .add-entry      { font-size: 0.9em; border-bottom: 1px solid #ccc; } */
-.add-entry      { font-size: 0.9em; } 
-.add-entry dl   { font-weight: bold; }
-.metanav        { text-align: right; font-size: 0.8em; padding: 0.3em;
-				  margin-bottom: 1em; background: #fafafa; }
-.flash          { background: #cee5F5; padding: 0.5em;
-				  border: 1px solid #7493a2; }
-.error          { background: #f0d6d6; padding: 0.5em; }
+.add-entry {
+    font-size: 0.9em;
+}
+
+.add-entry dl {
+    font-weight: bold;
+}
+
+.metanav {
+    text-align: right;
+    font-size: 0.8em;
+    padding: 0.3em;
+    margin-bottom: 1em;
+    background: #fafafa;
+}
+
+.flash {
+    background: #cee5F5;
+    padding: 0.5em;
+    border: 1px solid #7493a2;
+}
+
+.error {
+    background: #f0d6d6;
+    padding: 0.5em;
+}
 
 /* this works in Firefox, but apparently not Safari.
 .container      { display: flex; flex-flow: row wrap; flex-direction: row;
@@ -42,20 +136,73 @@ section { width: 80%; min-height: 100%; display:table; height:inherit;
 				  flex: 0 1 auto; align-self: auto; min-width: 0; min-height: auto; }
 */
 /* this works in both Firefox and Safari */
-.container      { display: table; margin: 2px auto; align: center; width: 100%; }
-.paginate       { display: inline-block; margin: 2px auto; text-align: right; width: 100%; }
-.entry          { display: inline-block; text-align: left; vertical-align: middle;
-				  width: 23%; height: auto; margin: 0 0 10px 10px; padding: 3px; } /* 17% for 5 images , 23% for 4*/
+.container {
+    display: table;
+    margin: 2px auto;
+    align: center;
+    width: 100%;
+}
 
-.about          { display: inline-block; text-align: left; vertical-align: middle;
-				  width: 50%; height: auto; }
-.single         { display: inline-block; text-align: left; vertical-align: middle;
-				  width: 40%; height: auto; margin: 0 0 5px 5px; padding: 3px; }
-.query          { display: inline-block; text-align: left; vertical-align: middle;
-				  width: 40%; height: auto; margin: 10px 10px 10px 10px; padding: 10px; }
+.paginate {
+    display: inline-block;
+    margin: 2px auto;
+    text-align: right;
+    width: 100%;
+}
+
+.entry {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    width: 23%;
+    height: auto;
+    margin: 0 0 10px 10px;
+    padding: 3px;
+}
+
+/* 17% for 5 images , 23% for 4*/
+
+.about {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    width: 50%;
+    height: auto;
+}
+
+.single {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    width: 40%;
+    height: auto;
+    margin: 0 0 5px 5px;
+    padding: 3px;
+}
+
+.query {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    width: 40%;
+    height: auto;
+    margin: 10px 10px 10px 10px;
+    padding: 10px;
+}
 
 
-.forms          { display: block; }
-.forms hr       { color: #7493a2; }
-.form           { display: inline-block; width: 45%; margin: 1em; vertical-align: top; }
+.forms {
+    display: block;
+}
+
+.forms hr {
+    color: #7493a2;
+}
+
+.form {
+    display: inline-block;
+    width: 45%;
+    margin: 1em;
+    vertical-align: top;
+}
 
