@@ -6,7 +6,7 @@ from os.path import abspath, dirname, join
 import pybtex.database
 from bokeh.client import pull_session
 from bokeh.embed import server_session
-from flask import Flask, g, redirect, render_template
+from flask import Flask, g, redirect, render_template, request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -181,6 +181,18 @@ def publications():
                            documentation=documentation,
                            sources=sources,
                            publications=publication_data)
+
+
+@app.errorhandler(Exception)
+def exceptions(e):
+    print(f"{request.full_path}")
+    return "This page no found"
+
+
+@app.after_request
+def after_request(response):
+    print(f"{request.full_path}")
+    return response
 
 
 if __name__ == '__main__':
