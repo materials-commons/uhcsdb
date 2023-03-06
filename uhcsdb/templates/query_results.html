@@ -3,10 +3,10 @@
 {% block body %}
 <div class="container">
   <div class="entry">
-	<a href="/micrograph/{{ query.micrograph_id }}">
+	<a href="{{ mc_route() }}/micrograph/{{ query.micrograph_id }}">
 	  <img 
         class="img-mg"
-	    src="/static/micrographs/micrograph{{ query.micrograph_id }}.png"
+	    src="{{ mc_route() }}/static/micrographs/micrograph{{ query.micrograph_id }}.png"
 	    alt={{ query.micrograph_path }}
 	    title={{ query.micrograph_path }}
 	    >
@@ -17,7 +17,7 @@
   <em>Added by <b>{{ author.username }}</b> ({{ author.email }})</em><br>
   on {{ query.upload_date }} <br>
   <em>Comment</em>: {{ query.annealing_condition|safe }} <br>
-  <a href="/micrograph/{{ query.micrograph_id }}">Details</a> <br>
+  <a href="{{ mc_route() }}/micrograph/{{ query.micrograph_id }}">Details</a> <br>
 
   <br>
   </div>
@@ -25,21 +25,21 @@
   <h2> These micrographs are similar to micrograph {{ query.micrograph_id }}: </h2><br>
   {% for result, score in results %}
   <div class="entry">	
-	<a href="/visual_query/{{ result.micrograph_id }}">
-	  <img src="{{ result.micrograph_path }}" class="img-mg"
+	<a href="{{ mc_route() }}/visual_query/{{ result.micrograph_id }}">
+	  <img src="{{ mc_route() }}{{ result.micrograph_path }}" class="img-mg"
 		   alt={{ result.micrograph_path }}
 		   title="find micrographs like #{{ result.micrograph_id }}" >
 	</a><br>
-	<a href="/micrograph/{{ result.micrograph_id }}" class="titleLink" >
+	<a href="{{ mc_route() }}/micrograph/{{ result.micrograph_id }}" class="titleLink" >
 	  {{ loop.index }}: Micrograph {{ result.micrograph_id }}
 	</a><br>
 	<!-- <small><em>score: {{ score }}</em></small><br> -->
 	<small><em>{{ result.annealing_condition }}</em> </small><br>
-	<a href="/visual_query/{{ result.micrograph_id }}">find similar</a><br>
-	<a href="/micrograph/{{ result.micrograph_id }}">details</a>
+	<a href="{{ mc_route() }}/visual_query/{{ result.micrograph_id }}">find similar</a><br>
+	<a href="{{ mc_route() }}/micrograph/{{ result.micrograph_id }}">details</a>
   </div>
   {% else %}
-    <em>Unbelievable.  No entries here so far</em>
+    <em>No entries here so far</em>
   {% endfor %}
   </div>
 {% endblock %}

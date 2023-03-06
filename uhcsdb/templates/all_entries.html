@@ -3,22 +3,22 @@
 
 <div class="container">
   Here are some of my favorites.
-  <a href='/entries'>show me all the micrographs.</a><br><br>
+  <a href='{{ mc_route() }}/entries'>show me all the micrographs.</a><br><br>
   {% for entry in entries %}
   <div class="entry">	
-	<a href="/visual_query/{{ entry.micrograph_id }}">
-	  <img src="{{ entry.micrograph_path }}" class="img-mg"
+	<a href="{{ mc_route() }}/visual_query/{{ entry.micrograph_id }}">
+	  <img src="{{ mc_route() }}{{ entry.micrograph_path }}" class="img-mg"
 		   alt={{ entry.micrograph_path }}
 		   title="find micrographs like #{{ entry.micrograph_id }}">
 	</a><br>
-	<a href="/micrograph/{{ entry.micrograph_id }}" class="titleLink" >
+	<a href="{{ mc_route() }}/micrograph/{{ entry.micrograph_id }}" class="titleLink" >
 	  Micrograph {{ entry.micrograph_id }}
 	</a><br>
-	<a href="/visual_query/{{ entry.micrograph_id }}">find similar</a><br>
-	<a href="/micrograph/{{ entry.micrograph_id }}">details</a>
+	<a href="{{ mc_route() }}/visual_query/{{ entry.micrograph_id }}">find similar</a><br>
+	<a href="{{ mc_route() }}/micrograph/{{ entry.micrograph_id }}">details</a>
   </div>
   {% else %}
-    <em>Unbelievable.  No entries here so far</em>
+    <em>No entries here so far</em>
   {% endfor %}
   </div>
 {% endblock %}

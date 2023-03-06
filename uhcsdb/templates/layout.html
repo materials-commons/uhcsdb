@@ -1,12 +1,12 @@
 <!doctype html>
 <head>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ mc_route() }}{{ url_for('static', filename='favicon.ico') }}">
     {% block head %} {% endblock %}
 </head>
 <title>UHCSDB microstructure explorer</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='app.css') }}">
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fa/css/all.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ mc_route() }}{{ url_for('static', filename='app.css') }}">
+<link rel=stylesheet type=text/css href="{{ mc_route() }}{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ mc_route() }}{{ url_for('static', filename='fa/css/all.css') }}">
 <div class="page2">
     {% include 'top-navbar.html' %}
     <div class="container-fluid">

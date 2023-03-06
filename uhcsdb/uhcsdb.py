@@ -44,6 +44,7 @@ app.config.update(dict(
 
 app.config.from_envvar('UHCSDB_SETTINGS', silent=True)
 
+
 _cwd = dirname(abspath(__file__))
 
 
@@ -88,11 +89,23 @@ def paginate(results, page, per_page):
 
 ENTRIES_PER_PAGE = 24
 
+as_mc = os.getenv('MC_MODE', 'False')
+
+
+@app.context_processor
+def add_utility_functions():
+    def mc_route():
+        if as_mc == 'False':
+            return ''
+        return '/uhcsdb'
+    return dict(mc_route=mc_route)
+
 
 @app.route('/')
 @app.route('/index')
 @app.route('/entries/')  # , defaults={'page': 1})
 @app.route('/entries/<int:page>')
+@app.route('/uhcsdb')
 def entries(page=1):
     # only show micrographs with these class labels
     unique_labels = {
@@ -110,6 +123,7 @@ def entries(page=1):
 
 
 @app.route('/micrograph/<int:entry_id>')
+@app.route('/uhcsdb/micrograph/<int:entry_id>')
 def show_entry(entry_id):
     db = get_db()
     entry = db.query(Micrograph).filter(Micrograph.micrograph_id == entry_id).first()
@@ -117,6 +131,7 @@ def show_entry(entry_id):
 
 
 @app.route('/visual_query/<int:entry_id>')
+@app.route('/uhcsdb/visual_query/<int:entry_id>')
 def visual_query(entry_id):
     db = get_db()
     query = db.query(Micrograph).filter(Micrograph.micrograph_id == entry_id).first()
@@ -133,6 +148,7 @@ def visual_query(entry_id):
 
 
 @app.route('/visualize')
+@app.route('/uhcsdb/visualize')
 def bokeh_plot():
     # bokeh_script=autoload_server(None,app_path="/visualize", url="http://rsfern.materials.cmu.edu")
     # session = pull_session(url="http://localhost:5006/visualize")
@@ -142,6 +158,7 @@ def bokeh_plot():
 
 
 @app.route('/writeup')
+@app.route('/uhcsdb/writeup')
 def writeup():
     return redirect('https://arxiv.org/abs/1702.01117')
 
@@ -173,6 +190,7 @@ def load_publication_data(path):
 
 
 @app.route('/publications')
+@app.route('/uhcsdb/publications')
 def publications():
     documentation = load_publication_data('uhcsdb/static/documentation.bib')
     sources = load_publication_data('uhcsdb/static/sources.bib')

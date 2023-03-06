@@ -5,9 +5,9 @@
     <!--
 	<img class="single" src="{{ entry.micrograph_path }}" alt={{ entry.micrograph_path }} title={{ entry.micrograph_path }}>
 	-->
-    <a href="/visual_query/{{ entry.micrograph_id }}">
+    <a href="{{ mc_route() }}/visual_query/{{ entry.micrograph_id }}">
       <img class="single img-mg"
-	   src="/static/micrographs/micrograph{{ entry.micrograph_id }}.png"
+	   src="{{ mc_route() }}/static/micrographs/micrograph{{ entry.micrograph_id }}.png"
 	   alt={{ entry.micrograph_path }}
 	   title={{ entry.micrograph_path }}
 	   >
@@ -21,7 +21,7 @@
   <br>
   <em>Annealing condition:</em> {{ entry.annealing_condition|safe }}<br>
   <em>Primary microconstituent: </em> {{ entry.microconstituent }}<br>
-  <a href="/visual_query/{{ entry.micrograph_id }}">Find similar micrographs</a><br>
+  <a href="{{ mc_route() }}/visual_query/{{ entry.micrograph_id }}">Find similar micrographs</a><br>
   </div>
 </div>
 {% endblock %}

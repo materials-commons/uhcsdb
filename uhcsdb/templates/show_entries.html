@@ -5,13 +5,13 @@
 <div class="container">
   <div class="paginate">
   {% if pg.has_prev %}
-    <a href="{{ url_for('.entries', page=pg.prev_num) }}">&lt;&lt; Previous</a>
+    <a href="{{ mc_route() }}{{ url_for('.entries', page=pg.prev_num) }}">&lt;&lt; Previous</a>
   {% else %}
     &lt;&lt; Previous
   {% endif %} |
-    <a href="/visualize">data visualization</a> |
+    <a href="{{ mc_route() }}/visualize">data visualization</a> |
   {% if pg.has_next %}
-    <a href="{{ url_for('.entries', page=pg.next_num) }}">More &gt;&gt;</a>
+    <a href="{{ mc_route() }}{{ url_for('.entries', page=pg.next_num) }}">More &gt;&gt;</a>
   {% else %}
     More &gt;&gt;
   {% endif %}
@@ -19,30 +19,30 @@
     
   {% for entry in entries %}
   <div class="entry">	
-	<a href="/visual_query/{{ entry.micrograph_id }}">
-	  <img src="{{ entry.micrograph_path }}" class="img-mg"
+	<a href="{{ mc_route() }}/visual_query/{{ entry.micrograph_id }}">
+	  <img src="{{ mc_route() }}{{ entry.micrograph_path }}" class="img-mg"
 		   alt={{ entry.micrograph_path }}
 		   title="find micrographs like #{{ entry.micrograph_id }}">
 	</a><br>
-	<a href="/micrograph/{{ entry.micrograph_id }}" class="titleLink" >
+	<a href="{{ mc_route() }}/micrograph/{{ entry.micrograph_id }}" class="titleLink" >
 	  Micrograph {{ entry.micrograph_id }}
 	</a><br>
-	<a href="/visual_query/{{ entry.micrograph_id }}">Find similar</a><br>
-	<a href="/micrograph/{{ entry.micrograph_id }}">Details</a>
+	<a href="{{ mc_route() }}/visual_query/{{ entry.micrograph_id }}">Find similar</a><br>
+	<a href="{{ mc_route() }}/micrograph/{{ entry.micrograph_id }}">Details</a>
   </div>
   {% else %}
-    <em>Unbelievable.  No entries here so far</em>
+    <em>No entries here so far</em>
   {% endfor %}
     <br>
     <div class="paginate">
 	{% if pg.has_prev %}
-	  <a href="{{ url_for('.entries', page=pg.prev_num) }}">&lt;&lt; Previous</a>
+	  <a href="{{ mc_route() }}{{ url_for('.entries', page=pg.prev_num) }}">&lt;&lt; Previous</a>
 	{% else %}
 	  &lt;&lt; Previous
 	{% endif %} |
-	<a href="/visualize">data visualization</a> |
+	<a href="{{ mc_route() }}/visualize">data visualization</a> |
 	{% if pg.has_next %}
-	  <a href="{{ url_for('.entries', page=pg.next_num) }}">More &gt;&gt;</a>
+	  <a href="{{ mc_route() }}{{ url_for('.entries', page=pg.next_num) }}">More &gt;&gt;</a>
 	{% else %}
 	  More &gt;&gt;
 	{% endif %}
