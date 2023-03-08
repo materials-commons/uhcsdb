@@ -194,7 +194,7 @@ markercolor.on_change('value', update_markercolor)
 hfile = os.path.join('static', 'embed', representation.value)
 x = load_embedding(hfile, keys=df['micrograph_id'].astype(str), method='t-SNE')
 
-thumb = ['static/thumbs/micrograph{}.png'.format(key) for key in df['micrograph_id']]
+thumb = ['/uhcsdb/static/thumbs/micrograph{}.png'.format(key) for key in df['micrograph_id']]
 
 source = ColumnDataSource(
     data=dict(

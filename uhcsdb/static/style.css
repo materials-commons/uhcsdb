@@ -206,3 +206,12 @@ section {
     vertical-align: top;
 }
 
+.legend-text {
+    color: black;
+    font-size: 0.875rem
+}
+
+.bullet-lg {
+    font-size: 2em;
+}
+
