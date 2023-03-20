@@ -4,9 +4,7 @@ import sys
 from os.path import abspath, dirname, join
 
 import pybtex.database
-from bokeh.client import pull_session
-from bokeh.embed import server_session
-from flask import Flask, g, redirect, render_template, request
+from flask import Flask, g, redirect, render_template
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -46,15 +44,6 @@ app.config.from_envvar('UHCSDB_SETTINGS', silent=True)
 
 
 _cwd = dirname(abspath(__file__))
-
-
-@app.before_first_request
-def build_search_tree():
-    features.build_search_tree('uhcsdb/static/representations',
-                               featurename='vgg16_multiscale_block5_conv3-vlad-32.h5'
-                               )
-    # features.build_search_tree(app.config['DATADIR'])
-    pass
 
 
 def connect_db(dbpath):
@@ -201,17 +190,23 @@ def publications():
                            publications=publication_data)
 
 
-@app.errorhandler(Exception)
-def exceptions(e):
-    print(f"{request.full_path}")
-    return "This page no found"
+# Leave in for url debugging
+#
+# @app.errorhandler(Exception)
+# def exceptions(e):
+#     print(f"{request.full_path}")
+#     return "This page no found"
+#
+#
+# @app.after_request
+# def after_request(response):
+#     print(f"{request.full_path}")
+#     return response
 
-
-@app.after_request
-def after_request(response):
-    print(f"{request.full_path}")
-    return response
-
+if __name__ != '__main__':
+    with app.app_context():
+        features.build_search_tree('uhcsdb/static/representations',
+                                   featurename='vgg16_multiscale_block5_conv3-vlad-32.h5')
 
 if __name__ == '__main__':
     # features.build_search_tree('uhcsdb/static/representations',
@@ -219,4 +214,6 @@ if __name__ == '__main__':
     app.config.from_object('config')
 
     with app.app_context():
+        features.build_search_tree('uhcsdb/static/representations',
+                                   featurename='vgg16_multiscale_block5_conv3-vlad-32.h5')
         app.run(debug=False)
