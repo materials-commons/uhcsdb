@@ -1,4 +1,3 @@
-# all the imports
 import os
 import sys
 from os.path import abspath, dirname, join
@@ -17,7 +16,6 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 # Flask app configuration
-# DATADIR = '/Users/brian/Research/projects/uhcs'
 SQLALCHEMY_DATABASE_URI = 'uhcsdb/microstructures.sqlite'
 MICROGRAPH_PATH = 'static/micrographs'
 UPLOAD_FOLDER = join('uhcsdb', MICROGRAPH_PATH)
@@ -190,6 +188,7 @@ def publications():
                            publications=publication_data)
 
 
+#
 # Leave in for url debugging
 #
 # @app.errorhandler(Exception)
